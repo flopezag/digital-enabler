@@ -7,3 +7,12 @@
 
 # .tfvars files
 *.tfvars
+
+# IDE
+.idea
+
+# Dynamical inventory
+ansible/inventory.ini
+
+# Python Environment
+ansible/.env

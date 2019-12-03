@@ -12,7 +12,16 @@
 .idea
 
 # Dynamical inventory
+terraform/inventory.ini
 ansible/inventory.ini
+ansible/roles/auto-deploy/templates/inventory.ini.j2
+
+# Temporal Public KeyPair
+terraform/tf_keypair
+ansible/tf_keypair
+ansible/roles/auto-deploy/templates/tf_keypair.j2
 
 # Python Environment
 ansible/.env
+
+#

@@ -7,3 +7,7 @@ output "Beaver"	{
 output "Main"	{
 	value = "${openstack_compute_floatingip_v2.fip_main.address} initialized with success"
 }
+
+output "Keypair" {
+	value = "${openstack_compute_keypair_v2.tf_keypair.private_key}"
+}

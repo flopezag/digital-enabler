@@ -30,10 +30,6 @@ variable "availability_zone" {
 	default = "nova"
 }
 
-variable "security_group" {
-	default = "allopen"
-}
-
 variable "network" {
 	default  = "node-int-net-01"
 }

@@ -1,9 +1,9 @@
 #
 # Create a security group
 #
-resource "openstack_compute_secgroup_v2" "tf_sec_1" {
+resource "openstack_compute_secgroup_v2" "tf_sec_group" {
     region = ""
-    name = "tf_sec_1"
+    name = "tf_sec_group"
     description = "Security Group Via Terraform"
     rule {
         from_port = 22
@@ -13,11 +13,16 @@ resource "openstack_compute_secgroup_v2" "tf_sec_1" {
     }
 }
 
+resource "openstack_compute_keypair_v2" "tf_keypair" {
+  region = var.openstack_region
+  name = "tf_keypair"
+}
+
 #
-# Create some Openstack Floating IP for the Main vm
+# Create an Openstack Floating IP for the Main vm
 #
 resource "openstack_compute_floatingip_v2" "fip_main" {
-    region = "Spain2"
+    region = var.openstack_region
     pool = "public-ext-net-01"
 }
 
@@ -30,8 +35,8 @@ resource "openstack_compute_instance_v2" "Beaver" {
   image_name = var.image
   availability_zone = var.availability_zone
   flavor_name = var.flavor
-  key_pair = var.ssh_key_pair
-  security_groups = [var.security_group]
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
     name = var.network
   }
@@ -42,20 +47,21 @@ resource "openstack_compute_instance_v2" "Main" {
   image_name = var.image
   availability_zone = var.availability_zone
   flavor_name = var.flavor
-  key_pair = var.ssh_key_pair
-  security_groups = [var.security_group]
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
     name = var.network
   }
 }
 
+/*
 resource "openstack_compute_instance_v2" "VM-2" {
   name = "vm-2"
   image_name = var.image
   availability_zone = var.availability_zone
   flavor_name = var.flavor
-  key_pair = var.ssh_key_pair
-  security_groups = [var.security_group]
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
     name = var.network
   }
@@ -66,8 +72,8 @@ resource "openstack_compute_instance_v2" "VM-1" {
   image_name = var.image
   availability_zone = var.availability_zone
   flavor_name = var.flavor
-  key_pair = var.ssh_key_pair
-  security_groups = [var.security_group]
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
     name = var.network
   }
@@ -78,8 +84,8 @@ resource "openstack_compute_instance_v2" "VM-1-2" {
   image_name = var.image
   availability_zone = var.availability_zone
   flavor_name = var.flavor
-  key_pair = var.ssh_key_pair
-  security_groups = [var.security_group]
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
     name = var.network
   }
@@ -91,13 +97,13 @@ resource "openstack_compute_instance_v2" "VM-3" {
   image_name = var.image
   availability_zone = var.availability_zone
   flavor_name = var.flavor
-  key_pair = var.ssh_key_pair
-  security_groups = [var.security_group]
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
     name = var.network
   }
 }
-
+*/
 #
 # Associate public IPs to the VMs
 #

@@ -1,0 +1,38 @@
+#################################################
+# deploy and launch remote ansible configuration
+#################################################
+- name: Install ansible
+  apt:
+    name: ['ansible']
+    update_cache: yes
+    state: present
+
+- name: Create target folder, ansible
+  file:
+    path: /home/ubuntu/ansible
+    state: directory
+
+- name: Create target folder, roles/docker-engine/tasks
+  file:
+    path: /home/ubuntu/ansible/roles/docker-engine/tasks
+    state: directory
+
+- name: Distribute ansible configuration file
+  template: src=templates/ansible.cfg.j2 dest=/home/ubuntu/ansible/ansible.cfg mode=0644
+
+- name: Distribute ansible configuration file
+  template: src=templates/main.yml.j2 dest=/home/ubuntu/ansible/roles/docker-engine/tasks/main.yml mode=0644
+
+- name: Distribute ansible role file
+  template: src=templates/provision.yml.j2 dest=/home/ubuntu/ansible/provision.yml mode=0644
+
+- name: Distribute dynamic inventory file
+  template: src=templates/inventory.ini.j2 dest=/home/ubuntu/ansible/inventory.ini mode=0644
+
+- name: Distribute dynamic inventory file
+  template: src=templates/tf_keypair.j2 dest=/home/ubuntu/ansible/tf_keypair mode=0600
+
+- name: Execute ansible playbook for the private instances
+  shell: ansible-playbook -vvvv -i inventory.ini --private-key=tf_keypair provision.yml >> ansible_playbook.out
+  args:
+    chdir: /home/ubuntu/ansible/

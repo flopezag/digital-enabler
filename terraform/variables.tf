@@ -30,7 +30,10 @@ variable "availability_zone" {
 	default = "nova"
 }
 
-variable "network" {
-	default  = "node-int-net-01"
+variable "external_pool" {
+  default = "public-ext-net-01"
 }
 
+variable "main_volume_id" {}
+
+variable "beaver_volume_id" {}

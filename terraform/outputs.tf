@@ -1,5 +1,6 @@
 #
 # show the Public and Private IP addresses of the virtual machines
+#
 output "Beaver"	{
 	value = "${openstack_compute_instance_v2.Beaver.access_ip_v4} initialized with success"
 }
@@ -9,5 +10,5 @@ output "Main"	{
 }
 
 output "Keypair" {
-	value = "${openstack_compute_keypair_v2.tf_keypair.private_key}"
+	value = openstack_compute_keypair_v2.tf_keypair.private_key
 }

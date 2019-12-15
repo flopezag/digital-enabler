@@ -17,19 +17,27 @@
     path: /home/ubuntu/ansible/roles/docker-engine/tasks
     state: directory
 
+- name: Create target folder, roles/docker-images/tasks
+  file:
+    path: /home/ubuntu/ansible/roles/docker-images/tasks
+    state: directory
+
 - name: Distribute ansible configuration file
   template: src=templates/ansible.cfg.j2 dest=/home/ubuntu/ansible/ansible.cfg mode=0644
 
-- name: Distribute ansible configuration file
-  template: src=templates/main.yml.j2 dest=/home/ubuntu/ansible/roles/docker-engine/tasks/main.yml mode=0644
+- name: Distribute ansible role main (docker-engine role)
+  template: src=templates/main-docker-engine.yml.j2 dest=/home/ubuntu/ansible/roles/docker-engine/tasks/main.yml mode=0644
 
-- name: Distribute ansible role file
+- name: Distribute ansible role main (docker-images role)
+  template: src=templates/main-docker-images.yml.j2 dest=/home/ubuntu/ansible/roles/docker-images/tasks/main.yml mode=0644
+
+- name: Distribute ansible playbook file
   template: src=templates/provision.yml.j2 dest=/home/ubuntu/ansible/provision.yml mode=0644
 
 - name: Distribute dynamic inventory file
   template: src=templates/inventory.ini.j2 dest=/home/ubuntu/ansible/inventory.ini mode=0644
 
-- name: Distribute dynamic inventory file
+- name: Distribute keypair
   template: src=templates/tf_keypair.j2 dest=/home/ubuntu/ansible/tf_keypair mode=0600
 
 - name: Execute ansible playbook for the private instances

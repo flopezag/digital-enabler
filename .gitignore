@@ -22,6 +22,6 @@ ansible/tf_keypair
 ansible/roles/auto-deploy/templates/tf_keypair.j2
 
 # Python Environment
-ansible/.env
+.env
 
 #

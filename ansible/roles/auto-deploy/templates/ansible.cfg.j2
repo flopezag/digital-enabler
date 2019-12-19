@@ -5,5 +5,5 @@ allow_world_readable_tmpfiles = True
 remote_user = ubuntu
 
 [ssh_connection]
-ssh_args = -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=30m
+ssh_args = -C -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=30m -o ServerAliveInterval=50
 pipelining = True

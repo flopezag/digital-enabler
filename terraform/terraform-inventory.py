@@ -21,6 +21,8 @@ import subprocess
 import os
 import shutil
 import sys
+import argparse
+from jinja2 import Template
 
 
 def get_dynamic_inventory():
@@ -99,6 +101,62 @@ def get_keypair():
         print("Unexpected error:", sys.exc_info())
 
 
+def cli():
+    # create parser
+    parser = argparse.ArgumentParser()
+
+    # add arguments to the parser
+    parser.add_argument('option',
+                        help='''\
+                        (volumes) Get the OpenStack Volume IDs and complete the terraform.tfvars file.
+                        (instances) Generate the inventory.ini file and the corresponding Keypair''')
+
+    # parse the arguments
+    args = parser.parse_args()
+
+    if args.option is None:
+        parser.print_help()
+    elif args.option != "volumes" and args.option != "instances":
+        parser.print_help()
+    else:
+        return args.option
+
+
+def generate_tfvars():
+    os.chdir('./volumes')
+    cmd = ['/usr/local/bin/terraform', 'output']
+    output, error = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+
+    dict_ids = get_dict_id(output.decode("utf-8").split())
+
+    os.chdir('..')
+    with open('terraform.tfvars.j2', 'r') as out:
+        template = out.read()
+
+    tm = Template(template)
+    msg = tm.render(Main_Volume="\"{}\"".format(dict_ids["Main_Volume"]),
+                    Beaver_Volume="\"{}\"".format(dict_ids["Beaver_Volume"]))
+
+    with open('terraform.tfvars', 'w') as out:
+        out.write(msg)
+
+
+def get_dict_id(text):
+    out_dict = dict()
+
+    # Check if we have values
+    if len(text) % 3 == 0:
+        for i in range(0, int(len(text)/3)):
+            out_dict[text[i * 3]] = text[i * 3 + 2]
+
+    return out_dict
+
+
 if __name__ == "__main__":
-    get_dynamic_inventory()
-    get_keypair()
+    option = cli()
+
+    if option == 'instances':
+        get_dynamic_inventory()
+        get_keypair()
+    else:
+        generate_tfvars()

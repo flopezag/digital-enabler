@@ -71,7 +71,7 @@ resource "openstack_compute_instance_v2" "Beaver" {
   name = "beaver"
   image_name = var.image
   availability_zone = var.availability_zone
-  flavor_name = var.flavor
+  flavor_name = var.openstack_flavor
   key_pair = openstack_compute_keypair_v2.tf_keypair.name
   security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
@@ -83,7 +83,7 @@ resource "openstack_compute_instance_v2" "Main" {
   name = "main"
   image_name = var.image
   availability_zone = var.availability_zone
-  flavor_name = var.flavor
+  flavor_name = var.openstack_flavor
   key_pair = openstack_compute_keypair_v2.tf_keypair.name
   security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
@@ -155,13 +155,13 @@ resource "openstack_compute_floatingip_associate_v2" "fip_main" {
 resource "openstack_compute_volume_attach_v2" "va_beaver" {
   region = var.openstack_region
   instance_id = openstack_compute_instance_v2.Beaver.id
-  volume_id   = var.beaver_volume_id
+  volume_id   = var.openstack_beaver_volume_id
 }
 
 resource "openstack_compute_volume_attach_v2" "va_main" {
   region = var.openstack_region
   instance_id = openstack_compute_instance_v2.Main.id
-  volume_id   = var.main_volume_id
+  volume_id   = var.openstack_main_volume_id
 }
 
 # Remote execution

@@ -22,6 +22,11 @@
     path: /home/ubuntu/ansible/roles/docker-images/tasks
     state: directory
 
+- name: Create target folder, roles/docker-volume/tasks
+  file:
+    path: /home/ubuntu/ansible/roles/docker-volume/tasks
+    state: directory
+
 - name: Distribute ansible configuration file
   template: src=templates/ansible.cfg.j2 dest=/home/ubuntu/ansible/ansible.cfg mode=0644
 
@@ -30,6 +35,9 @@
 
 - name: Distribute ansible role main (docker-images role)
   template: src=templates/main-docker-images.yml.j2 dest=/home/ubuntu/ansible/roles/docker-images/tasks/main.yml mode=0644
+
+- name: Distribute ansible role main (docker-volume role)
+  template: src=templates/main-docker-volume.yml.j2 dest=/home/ubuntu/ansible/roles/docker-volume/tasks/main.yml mode=0644
 
 - name: Distribute ansible playbook file
   template: src=templates/provision.yml.j2 dest=/home/ubuntu/ansible/provision.yml mode=0644
@@ -41,6 +49,6 @@
   template: src=templates/tf_keypair.j2 dest=/home/ubuntu/ansible/tf_keypair mode=0600
 
 - name: Execute ansible playbook for the private instances
-  shell: ansible-playbook -vvvv -i inventory.ini --private-key=tf_keypair provision.yml >> ansible_playbook.out
+  shell: ansible-playbook -vvvv -i inventory.ini --private-key=tf_keypair provision.yml
   args:
     chdir: /home/ubuntu/ansible/

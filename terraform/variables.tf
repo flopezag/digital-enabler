@@ -10,12 +10,14 @@ variable "openstack_region" {}
 
 variable "openstack_domain_name" {}
 
+variable "openstack_flavor" {}
+
+variable "openstack_main_volume_id" {}
+
+variable "openstack_beaver_volume_id" {}
+
 variable "image" {
   default = "base_ubuntu_18.04"
-}
-
-variable "flavor" {
-  default = "m1.large"
 }
 
 variable "ssh_key_pair" {
@@ -33,7 +35,3 @@ variable "availability_zone" {
 variable "external_pool" {
   default = "public-ext-net-01"
 }
-
-variable "main_volume_id" {}
-
-variable "beaver_volume_id" {}

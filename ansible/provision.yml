@@ -1,11 +1,12 @@
 ---
 
+# need to execute firstly the docker-volume before install the docker-engine
 - hosts: main
   become: yes
   gather_facts: no
   roles:
-     - docker-engine
      - docker-volume
+     - docker-engine
      - auto-deploy
 
 - hosts: Main

@@ -7,6 +7,7 @@
 
 # .tfvars files
 *.tfvars
+*.tfvars.j2.init
 
 # IDE
 .idea

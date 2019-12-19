@@ -23,6 +23,7 @@ import shutil
 import sys
 import argparse
 from jinja2 import Template
+from config.settings import USERNAME, TENANT_NAME, PASSWORD, AUTH_URL, REGION, DOMAIN_NAME, FLAVOR
 
 
 def get_dynamic_inventory():
@@ -108,37 +109,68 @@ def cli():
     # add arguments to the parser
     parser.add_argument('option',
                         help='''\
-                        (volumes) Get the OpenStack Volume IDs and complete the terraform.tfvars file.
-                        (instances) Generate the inventory.ini file and the corresponding Keypair''')
+                        (volumes) Get the OpenStack Volume IDs and complete the terraform.tfvars files.
+                        (instances) Generate the inventory.ini file and the corresponding Keypair.
+                        (init) Init the terraform.tfvars files''')
 
     # parse the arguments
     args = parser.parse_args()
 
     if args.option is None:
         parser.print_help()
-    elif args.option != "volumes" and args.option != "instances":
+    elif args.option != "volumes" and args.option != "instances" and args.option != "init":
         parser.print_help()
     else:
         return args.option
 
 
 def generate_tfvars():
-    os.chdir('./volumes')
-    cmd = ['/usr/local/bin/terraform', 'output']
-    output, error = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+    if os._exists('terraform.tfvars.j2.init'):
+        os.chdir('./volumes')
+        cmd = ['/usr/local/bin/terraform', 'output']
+        output, error = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
 
-    dict_ids = get_dict_id(output.decode("utf-8").split())
+        dict_ids = get_dict_id(output.decode("utf-8").split())
 
-    os.chdir('..')
+        os.chdir('..')
+        with open('terraform.tfvars.j2.init', 'r') as out:
+            template = out.read()
+
+        tm = Template(template)
+        msg = tm.render(Main_Volume="\"{}\"".format(dict_ids["Main_Volume"]),
+                        Beaver_Volume="\"{}\"".format(dict_ids["Beaver_Volume"]))
+
+        with open('terraform.tfvars', 'w') as out:
+            out.write(msg)
+    else:
+        print('Unable to find terraform.tfvars.j2.init temporal file. '
+              'You must to execute firstly terraform-inventory init')
+
+
+def init_tfvars():
     with open('terraform.tfvars.j2', 'r') as out:
         template = out.read()
 
     tm = Template(template)
-    msg = tm.render(Main_Volume="\"{}\"".format(dict_ids["Main_Volume"]),
-                    Beaver_Volume="\"{}\"".format(dict_ids["Beaver_Volume"]))
+    msg = tm.render(USERNAME=USERNAME,
+                    TENANT_NAME=TENANT_NAME,
+                    PASSWORD=PASSWORD,
+                    AUTH_URL=AUTH_URL,
+                    REGION=REGION,
+                    DOMAIN_NAME=DOMAIN_NAME,
+                    FLAVOR=FLAVOR
+    )
 
-    with open('terraform.tfvars', 'w') as out:
+    with open('terraform.tfvars.j2.init', 'w') as out:
         out.write(msg)
+
+    # Delete the last lines
+    with open('terraform.tfvars.j2.init') as oldfile, open('./volumes/terraform.tfvars', 'w') as newfile:
+        for line in oldfile:
+            if 'volume_id' not in line:
+                newfile.write(line)
+
+    os.chdir('./volumes')
 
 
 def get_dict_id(text):
@@ -158,5 +190,7 @@ if __name__ == "__main__":
     if option == 'instances':
         get_dynamic_inventory()
         get_keypair()
-    else:
+    elif option == 'volumes':
         generate_tfvars()
+    elif option == 'init':
+        init_tfvars()

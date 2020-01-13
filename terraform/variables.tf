@@ -16,6 +16,24 @@ variable "openstack_main_volume_id" {}
 
 variable "openstack_beaver_volume_id" {}
 
+variable "openstack_vm_2_volume_id" {}
+
+variable "openstack_vm_1_volume_id" {}
+
+variable "openstack_vm_1_2_volume_id" {}
+
+variable "openstack_vm_3_volume_id" {}
+
+variable "openstack_vm_4_volume_id" {}
+
+variable "openstack_vm_5_volume_id" {}
+
+variable "openstack_vm_6_volume_id" {}
+
+variable "openstack_vm_7_volume_id" {}
+
+variable "openstack_vm_7_2_volume_id" {}
+
 variable "image" {
   default = "base_ubuntu_18.04"
 }

@@ -91,16 +91,15 @@ resource "openstack_compute_instance_v2" "Main" {
   }
 }
 
-/*
 resource "openstack_compute_instance_v2" "VM-2" {
   name = "vm-2"
   image_name = var.image
   availability_zone = var.availability_zone
-  flavor_name = var.flavor
+  flavor_name = var.openstack_flavor
   key_pair = openstack_compute_keypair_v2.tf_keypair.name
   security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
-    name = var.network
+    uuid = openstack_networking_network_v2.impress.id
   }
 }
 
@@ -108,11 +107,11 @@ resource "openstack_compute_instance_v2" "VM-1" {
   name = "vm-1"
   image_name = var.image
   availability_zone = var.availability_zone
-  flavor_name = var.flavor
+  flavor_name = var.openstack_flavor
   key_pair = openstack_compute_keypair_v2.tf_keypair.name
   security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
-    name = var.network
+    uuid = openstack_networking_network_v2.impress.id
   }
 }
 
@@ -120,27 +119,86 @@ resource "openstack_compute_instance_v2" "VM-1-2" {
   name = "vm-1-2"
   image_name = var.image
   availability_zone = var.availability_zone
-  flavor_name = var.flavor
+  flavor_name = var.openstack_flavor
   key_pair = openstack_compute_keypair_v2.tf_keypair.name
   security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
-    name = var.network
+    uuid = openstack_networking_network_v2.impress.id
   }
 }
-
 
 resource "openstack_compute_instance_v2" "VM-3" {
   name = "vm-3"
   image_name = var.image
   availability_zone = var.availability_zone
-  flavor_name = var.flavor
+  flavor_name = var.openstack_flavor
   key_pair = openstack_compute_keypair_v2.tf_keypair.name
   security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
   network {
-    name = var.network
+    uuid = openstack_networking_network_v2.impress.id
   }
 }
-*/
+
+resource "openstack_compute_instance_v2" "VM-4" {
+  name = "vm-4"
+  image_name = var.image
+  availability_zone = var.availability_zone
+  flavor_name = var.openstack_flavor
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
+  network {
+    uuid = openstack_networking_network_v2.impress.id
+  }
+}
+
+resource "openstack_compute_instance_v2" "VM-5" {
+  name = "vm-5"
+  image_name = var.image
+  availability_zone = var.availability_zone
+  flavor_name = var.openstack_flavor
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
+  network {
+    uuid = openstack_networking_network_v2.impress.id
+  }
+}
+
+resource "openstack_compute_instance_v2" "VM-6" {
+  name = "vm-6"
+  image_name = var.image
+  availability_zone = var.availability_zone
+  flavor_name = var.openstack_flavor
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
+  network {
+    uuid = openstack_networking_network_v2.impress.id
+  }
+}
+
+resource "openstack_compute_instance_v2" "VM-7" {
+  name = "vm-7"
+  image_name = var.image
+  availability_zone = var.availability_zone
+  flavor_name = var.openstack_flavor
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
+  network {
+    uuid = openstack_networking_network_v2.impress.id
+  }
+}
+
+resource "openstack_compute_instance_v2" "VM-7-2" {
+  name = "vm-7-2"
+  image_name = var.image
+  availability_zone = var.availability_zone
+  flavor_name = var.openstack_flavor
+  key_pair = openstack_compute_keypair_v2.tf_keypair.name
+  security_groups = [openstack_compute_secgroup_v2.tf_sec_group.name]
+  network {
+    uuid = openstack_networking_network_v2.impress.id
+  }
+}
+
 #
 # Associate public IPs to the VMs
 #
@@ -162,6 +220,60 @@ resource "openstack_compute_volume_attach_v2" "va_main" {
   region = var.openstack_region
   instance_id = openstack_compute_instance_v2.Main.id
   volume_id   = var.openstack_main_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_2" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-2.id
+  volume_id   = var.openstack_vm_2_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_1" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-1.id
+  volume_id   = var.openstack_vm_1_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_1_2" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-1-2.id
+  volume_id   = var.openstack_vm_1_2_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_3" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-3.id
+  volume_id   = var.openstack_vm_3_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_4" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-4.id
+  volume_id   = var.openstack_vm_4_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_5" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-5.id
+  volume_id   = var.openstack_vm_5_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_6" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-6.id
+  volume_id   = var.openstack_vm_6_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_7" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-7.id
+  volume_id   = var.openstack_vm_7_volume_id
+}
+
+resource "openstack_compute_volume_attach_v2" "va_vm_7_2" {
+  region = var.openstack_region
+  instance_id = openstack_compute_instance_v2.VM-7-2.id
+  volume_id   = var.openstack_vm_7_2_volume_id
 }
 
 # Remote execution

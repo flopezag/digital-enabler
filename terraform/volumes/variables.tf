@@ -9,3 +9,5 @@ variable "openstack_auth_url" {}
 variable "openstack_region" {}
 
 variable "openstack_domain_name" {}
+
+variable "openstack_flavor" {}

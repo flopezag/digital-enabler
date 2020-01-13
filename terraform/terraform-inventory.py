@@ -125,7 +125,7 @@ def cli():
 
 
 def generate_tfvars():
-    if os._exists('terraform.tfvars.j2.init'):
+    if os.path.exists('terraform.tfvars.j2.init'):
         os.chdir('./volumes')
         cmd = ['/usr/local/bin/terraform', 'output']
         output, error = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
@@ -138,11 +138,21 @@ def generate_tfvars():
 
         tm = Template(template)
         msg = tm.render(Main_Volume="\"{}\"".format(dict_ids["Main_Volume"]),
-                        Beaver_Volume="\"{}\"".format(dict_ids["Beaver_Volume"]))
+                        Beaver_Volume="\"{}\"".format(dict_ids["Beaver_Volume"]),
+                        VM_2_Volume="\"{}\"".format(dict_ids["VM_2_Volume"]),
+                        VM_1_Volume="\"{}\"".format(dict_ids["VM_1_Volume"]),
+                        VM_1_2_Volume="\"{}\"".format(dict_ids["VM_1_2_Volume"]),
+                        VM_3_Volume="\"{}\"".format(dict_ids["VM_3_Volume"]),
+                        VM_4_Volume="\"{}\"".format(dict_ids["VM_4_Volume"]),
+                        VM_5_Volume="\"{}\"".format(dict_ids["VM_5_Volume"]),
+                        VM_6_Volume="\"{}\"".format(dict_ids["VM_6_Volume"]),
+                        VM_7_Volume="\"{}\"".format(dict_ids["VM_7_Volume"]),
+                        VM_7_2_Volume="\"{}\"".format(dict_ids["VM_7_2_Volume"]))
 
         with open('terraform.tfvars', 'w') as out:
             out.write(msg)
     else:
+        print(os.getcwd())
         print('Unable to find terraform.tfvars.j2.init temporal file. '
               'You must to execute firstly terraform-inventory init')
 

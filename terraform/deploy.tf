@@ -1,5 +1,3 @@
-# Source: https://github.com/terraform-providers/terraform-provider-openstack/blob/master/examples/app-with-networking/main.tf
-
 #
 # Create a security group
 #
@@ -275,21 +273,3 @@ resource "openstack_compute_volume_attach_v2" "va_vm_7_2" {
   instance_id = openstack_compute_instance_v2.VM-7-2.id
   volume_id   = var.openstack_vm_7_2_volume_id
 }
-
-# Remote execution
-#
-/*
-provisioner "remote-exec" {
-connection {
-user = "${var.ssh_user_name}"
-key_file = "${var.ssh_key_file}"
-}
-
-inline = [
-"sudo apt-get -y update",
-"sudo apt-get -y install nginx",
-"sudo service nginx start"
-]
-}
-}
-*/

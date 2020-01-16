@@ -182,6 +182,22 @@ def init_tfvars():
 
     os.chdir('./volumes')
 
+    with open('terraform.tfvars.j2', 'r') as out:
+        template = out.read()
+
+    tm = Template(template)
+    msg = tm.render(USERNAME=USERNAME,
+                    TENANT_NAME=TENANT_NAME,
+                    PASSWORD=PASSWORD,
+                    AUTH_URL=AUTH_URL,
+                    REGION=REGION,
+                    DOMAIN_NAME=DOMAIN_NAME,
+                    FLAVOR=FLAVOR
+    )
+
+    with open('terraform.tfvars', 'w') as out:
+        out.write(msg)
+
 
 def get_dict_id(text):
     out_dict = dict()

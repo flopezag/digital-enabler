@@ -49,6 +49,6 @@
   template: src=templates/tf_keypair.j2 dest=/home/ubuntu/ansible/tf_keypair mode=0600
 
 - name: Execute ansible playbook for the private instances
-  shell: ansible-playbook -vvvv -i inventory.ini --private-key=tf_keypair provision.yml
+  shell: ansible-playbook -i inventory.ini --private-key=tf_keypair provision.yml
   args:
     chdir: /home/ubuntu/ansible/

@@ -15,3 +15,116 @@
         message: "Docker Images for Beaver virtual machine",
         images: ["nginx:latest"]
       }
+
+- hosts: VM-1
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-1 virtual machine",
+        images: ["fiware/orion:latest",
+        "fiware/iotagent-json:latest",
+        "fiware/iotagent-ul:latest",
+        "fiware/lightweightm2m-iotagent:latest",
+        "fiware/iotagent-lorawan:latest",
+        "fiware/sigfox-iotagent:1.1.0",
+        "iotagent4fiware/iotagent-opcua:latest",
+        "mongo:3.6",
+        "rabbitmq:latest"]
+      }
+
+- hosts: VM-1-2
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-1-2 virtual machine",
+        images: ["fiware/orion:latest",
+        "fiware/iotagent-json:latest",
+        "fiware/iotagent-ul:latest",
+        "fiware/lightweightm2m-iotagent:latest",
+        "fiware/iotagent-lorawan:latest",
+        "fiware/sigfox-iotagent:1.1.0",
+        "iotagent4fiware/iotagent-opcua:latest",
+        "mongo:3.6",
+        "rabbitmq:latest"]
+      }
+
+- hosts: VM-2
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-2 virtual machine",
+        images: ["solr:latest",
+        "mysql:latest",
+        "redis:latest",
+        "postgres:latest"]
+      }
+
+- hosts: VM-3
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-3 virtual machine",
+        images: ["fiware/idm:7.0.0",
+        "mysql:latest"
+        ]
+      }
+
+- hosts: VM-4
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-4 virtual machine",
+        images: ["postgres:latest",
+        "rabbitmq:latest",
+        "redis:latest",
+        "loraserver/lora-app-server:latest",
+        "loraserver/loraserver:latest",
+        "loraserver/lora-gateway-bridge",
+        "loraserver/lora-geo-server:latest"
+        ]
+      }
+
+- hosts: VM-5
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-5 virtual machine",
+        images: ["mongo:3.6"]
+      }
+
+- hosts: VM-6
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-6 virtual machine",
+        images: ["fiware/knowage-server-docker:6.1.1",
+        "mysql:latest"
+        ]
+      }
+
+- hosts: VM-7
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-7 virtual machine",
+        images: ["postgres:latest",
+        "mongo:3.6"
+        ]
+      }
+
+- hosts: VM-7-2
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: docker-images,
+        message: "Docker Images for VM-7-2 virtual machine",
+        images: ["nginx:latest"]
+      }
